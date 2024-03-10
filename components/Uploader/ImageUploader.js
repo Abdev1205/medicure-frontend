@@ -1,21 +1,26 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import Label from '../common/InputFields/Label';
 import PrimaryButton from '../common/Button/PrimaryButton';
-import { DataLayer } from '@/context/DataProvider';
 import Image from 'next/image';
 import axios from 'axios';
 
 const ImageUploader = () => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const {setImage} = useContext(DataLayer);
+  const [uploadedImage, setUploadedImage] = useState(null);
+
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setSelectedImage(e.target.result);
-        setImage(e.target.result);
+        let baseImage = e.target.result;
+        let imageData = baseImage.substring("data:image/jpeg;base64,".length);
+        console.log(imageData);
+        setSelectedImage(baseImage);
+        setUploadedImage(imageData);
+
       };
       reader.readAsDataURL(file);
     }
@@ -27,15 +32,9 @@ const ImageUploader = () => {
       if (selectedImage === null) {
         return;
       }
-
-      const res = await axios.post("https://1p5q9lkh-5000.inc1.devtunnels.ms", { "image": selectedImage });
-      if (res.data.success == true) {
-        console.log(res.data);
-        console.log('response sucess');
-        router.push('/reportData/genRep')
-      }
-      console.log(res.data);
-      
+      console.log(selectedImage)
+      const res = await axios.post("https://1p5q9lkh-5000.inc1.devtunnels.ms/", { "image": uploadedImage });
+      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +43,7 @@ const ImageUploader = () => {
   return (
     <>
       <div className=' w-[100%] h-[calc(100vh-3.5rem)] flex flex-col items-center justify-center  ' >
-        <form className=' w-[40rem] h-[24rem] flex flex-col gap-[1rem] px-[2.5rem] py-[1.5rem] border-[1px]  rounded-md ' onSubmit={(e)=>handleSubmit(e)}  >
+        <form className=' w-[40rem] h-[24rem] flex flex-col gap-[1rem] px-[2.5rem] py-[1.5rem] border-[1px]  rounded-md ' onSubmit={(e) => handleSubmit(e)}  >
           <Label label={"Upload your image"} required={true} />
           <label
             htmlFor="dropzone-file"
