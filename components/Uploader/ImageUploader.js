@@ -30,8 +30,8 @@ const ImageUploader = () => {
 
       const res = await axios.post("https://1p5q9lkh-5000.inc1.devtunnels.ms", { "image": selectedImage });
       if (res.data.success == true) {
+        console.log(res.data);
         console.log('response sucess');
-        
         router.push('/reportData/genRep')
       }
       console.log(res.data);
