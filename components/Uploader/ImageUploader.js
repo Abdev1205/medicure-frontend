@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Label from '../common/InputFields/Label';
 import PrimaryButton from '../common/Button/PrimaryButton';
+import { DataLayer } from '@/context/DataProvider';
 import Image from 'next/image';
 import axios from 'axios';
 
 const ImageUploader = () => {
   const [selectedImage, setSelectedImage] = useState(null);
-
-
+  const {setImage} = useContext(DataLayer);
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
@@ -15,6 +15,7 @@ const ImageUploader = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setSelectedImage(e.target.result);
+        setImage(e.target.result);
       };
       reader.readAsDataURL(file);
     }
@@ -27,10 +28,16 @@ const ImageUploader = () => {
         return;
       }
 
-      const res = await axios.post("http://127.0.0.1:5000", { "image": selectedImage });
+      const res = await axios.post("https://1p5q9lkh-5000.inc1.devtunnels.ms", { "image": selectedImage });
+      if (res.data.success == true) {
+        console.log('response sucess');
+        
+        router.push('/reportData/genRep')
+      }
       console.log(res.data);
+      
     } catch (error) {
-
+      console.log(error);
     }
   }
 
