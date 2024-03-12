@@ -32,7 +32,7 @@ const Navbar = () => {
     <>
       {/* ----------------------- Navbar code start from here ---------------------- */}
 
-      <nav className=" bg-white shadow-md sticky top-0 w-[100%] h-[3.5rem] px-[3rem] flex justify-between items-center  " >
+      <nav className=" bg-white  shadow-md sticky top-0 w-[100%] h-[3.5rem] px-[3rem] flex justify-between items-center  " >
 
         {/* ------------------------------ navbar header ----------------------------- */}
         <div className=" flex gap-[.5rem] items-center w-[8rem]  " >

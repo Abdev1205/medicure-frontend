@@ -3,6 +3,7 @@ import Navbar from "@/components/common/Navbar/Navbar";
 import { DataLayer } from "@/context/DataProvider";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { ApiUrl } from "@/utils/ApiUrl";
 
 const Rep = () => {
   const { image, param } = useContext(DataLayer);
@@ -14,7 +15,7 @@ const Rep = () => {
     try {
       const getReport = async () => {
         console.log("Query Stuff " + router.query.id);
-        const res = await axios.post(`http://localhost:4000/api/reports?id=${router.query.id}`);
+        const res = await axios.post(`${ApiUrl}/api/reports?id=${router.query.id}`);
         console.log("REPORT!!!!");
         console.log(res.data);
         console.log(param);
@@ -74,7 +75,7 @@ const Rep = () => {
               <strong>Parameters:</strong>
             </div>
 
-            <div>{}</div>
+            <div>{ }</div>
           </div>
 
           <div className="my-12 ">
