@@ -5,11 +5,13 @@ import Image from 'next/image';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { DataLayer } from '@/context/DataProvider';
+import { ModelUrl, ApiUrl } from '@/utils/ApiUrl';
 
 const ImageUploader = () => {
-  const { setImage, setParam} = useContext(DataLayer);
+  const { setImage, setParam } = useContext(DataLayer);
   const [selectedImage, setSelectedImage] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [buttonLoader, setButtonLoader] = useState(false);
 
   const router = useRouter();
 
@@ -32,19 +34,21 @@ const ImageUploader = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setButtonLoader(true)
     try {
       if (selectedImage === null) {
         return;
       }
       console.log(selectedImage)
-      const res = await axios.post("https://1p5q9lkh-5000.inc1.devtunnels.ms/", { "image": uploadedImage });
+      const res = await axios.post(`${ModelUrl}/`, { "image": uploadedImage });
       setParam(res.data);
       console.log(res);
-      const analysis = await axios.post("http://localhost:4000/api/generate", res.data);
+      const analysis = await axios.post(`${ApiUrl}/api/generate`, res.data);
       console.log("Analysis");
       router.push(`/report/${analysis.data.id}`);
     } catch (error) {
       console.log(error);
+      setButtonLoader(false)
     }
   }
 
@@ -102,7 +106,7 @@ const ImageUploader = () => {
             />
           </label>
           <div className='flex items-center justify-center mt-[1rem] ' >
-            <PrimaryButton type="submit" text={"Process Image"} width='w-[10rem]' height='h-[2.4rem]' disabled={!selectedImage} />
+            <PrimaryButton type="submit" text={"Process Image"} width='w-[10rem]' height='h-[2.4rem]' disabled={!selectedImage} loading={buttonLoader} />
           </div>
 
         </form>
