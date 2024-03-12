@@ -1,9 +1,8 @@
-import "@/styles/globals.css";
-import DataProvider from "@/context/DataProvider";
+import '@/styles/globals.css'
+import DataProvider from '@/context/DataProvider'
+
 export default function App({ Component, pageProps }) {
-  return (
-    <DataProvider>
-      <Component {...pageProps} />
-    </DataProvider>
-  );
+  return <DataProvider>
+    <Component {...pageProps} />
+  </DataProvider>
 }
