@@ -1,19 +1,24 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "@/components/common/Navbar/Navbar";
 import { DataLayer } from "@/context/DataProvider";
 import { useRouter } from "next/router";
 import axios from "axios";
 
 const Rep = () => {
-  const { report, setReport, image } = useContext(DataLayer);
+  const { image, param } = useContext(DataLayer);
+  const [analysis, setAnalysis] = useState();
   const router = useRouter();
   console.log(router.query.id);
 
   useEffect(() => {
     try {
       const getReport = async () => {
-        const res = await axios.post(`http://localhost:4000/reports?id=${router.query.id}`);
-        setReport(res.data.report);
+        console.log("Query Stuff " + router.query.id);
+        const res = await axios.post(`http://localhost:4000/api/reports?id=${router.query.id}`);
+        console.log("REPORT!!!!");
+        console.log(res.data);
+        console.log(param);
+        setAnalysis(res.data.report.analysis);
       }
       getReport();
     } catch (error) {
@@ -61,7 +66,7 @@ const Rep = () => {
               <strong>Our Analysis:</strong>
             </div>
 
-            <div>{report}</div>
+            <div>{analysis}</div>
           </div>
 
           <div className="my-12 ">
@@ -69,7 +74,7 @@ const Rep = () => {
               <strong>Parameters:</strong>
             </div>
 
-            <div>Values</div>
+            <div>{}</div>
           </div>
 
           <div className="my-12 ">
@@ -77,7 +82,7 @@ const Rep = () => {
               <strong>Image:</strong>
             </div>
 
-            <div>Your input Image</div>
+            <div>{image}</div>
           </div>
 
           <div className="flex flex-col justify-center h-52">
