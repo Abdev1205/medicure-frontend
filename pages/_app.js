@@ -1,8 +1,14 @@
 import '@/styles/globals.css'
 import DataProvider from '@/context/DataProvider'
+import NextTopLoader from 'nextjs-toploader';
+
 
 export default function App({ Component, pageProps }) {
-  return <DataProvider>
-    <Component {...pageProps} />
-  </DataProvider>
+  return (
+    <DataProvider>
+      {/* <NextTopLoader showSpinner={false} color="#FA2444" > */}
+      <Component {...pageProps} />
+      {/* </NextTopLoader> */}
+    </DataProvider>
+  )
 }
