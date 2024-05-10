@@ -1,8 +1,9 @@
 import Image from "next/image"
 import { LogoImage } from "@/public/assetsManager"
 import Link from "next/link"
-
+import { useRouter } from "next/router"
 const Navbar = () => {
+  const router = useRouter();
 
   const navLinksDatav = [
     {
@@ -62,9 +63,9 @@ const Navbar = () => {
 
           {/* ------------------------------ Action button ----------------------------- */}
           <div className=" flex gap-[1rem] items-center " >
-            <button className=" px-[1rem] py-[.2rem] rounded-[.25rem] bg-[#FA2444] text-white  " >Book Appointment</button>
+            <button className=" px-[1rem] py-[.2rem] rounded-[.25rem] bg-[#FA2444] text-white  " >Check models</button>
             <div className=" h-[2rem] w-[.13rem] rounded-sm bg-[#FA2444] " />
-            <button className=" px-[1rem] py-[.2rem] rounded-[.25rem] border-[1.5px] border-[#FA2444]  " >Login</button>
+            <button onClick={() => router.push("/login")} className=" px-[1rem] py-[.2rem] rounded-[.25rem] border-[1.5px] border-[#FA2444] cursor-pointer  " >Login</button>
           </div>
 
         </div>

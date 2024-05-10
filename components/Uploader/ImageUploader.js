@@ -1,19 +1,19 @@
-import React, { useContext, useState } from 'react'
-import Label from '../common/InputFields/Label';
-import PrimaryButton from '../common/Button/PrimaryButton';
-import Image from 'next/image';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { DataLayer } from '@/context/DataProvider';
-import { ModelUrl, ApiUrl } from '@/utils/ApiUrl';
-import Loader from '../loader/Loader';
+import React, { useContext, useState } from "react";
+import Label from "../common/InputFields/Label";
+import PrimaryButton from "../common/Button/PrimaryButton";
+import Image from "next/image";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { DataLayer } from "@/context/DataProvider";
+import { ModelUrl, ApiUrl } from "@/utils/ApiUrl";
+import Loader from "../loader/Loader";
 
 const ImageUploader = () => {
   const { setImage, setParam } = useContext(DataLayer);
   const [selectedImage, setSelectedImage] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [buttonLoader, setButtonLoader] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -36,41 +36,41 @@ const ImageUploader = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
-    setButtonLoader(true)
+    setLoading(true);
+    setButtonLoader(true);
     try {
       if (selectedImage === null) {
         return;
       }
-      console.log(selectedImage)
-      const res = await axios.post(`${ModelUrl}/`, { "image": uploadedImage });
+      console.log(selectedImage);
+      const res = await axios.post(`${ModelUrl}/`, { image: uploadedImage });
       setParam(res.data);
 
       const modelData = res.data;
       const imageData = {
-        image: selectedImage
-      }
+        image: selectedImage,
+      };
       Object.assign(modelData, imageData);
-      console.log("res data after object merge ", modelData)
+      console.log("res data after object merge ", modelData);
       const analysis = await axios.post(`${ApiUrl}/api/generate`, modelData);
       console.log("Analysis");
       // console.log("data : ", analysis.data.report)
       router.push(`/report/${analysis.data.report._id}`);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       console.log(error);
-      setButtonLoader(false)
+      setButtonLoader(false);
     }
-  }
+  };
 
   return (
     <>
-      <div className=' w-[100%] h-[calc(100vh-3.5rem)] flex flex-col items-center justify-center  ' >
-        <Loader
-          visible={loading}
-          onClose={() => setLoading(false)}
-        />
-        <form className=' w-[40rem] h-[24rem] flex flex-col gap-[1rem] px-[2.5rem] py-[1.5rem] border-[1px]  rounded-md ' onSubmit={(e) => handleSubmit(e)}  >
+      <div className=" bg-[#fdebec] h-[calc(100vh-12.5rem)] rounded-2xl flex flex-col items-center justify-center  ">
+        <Loader visible={loading} onClose={() => setLoading(false)} />
+        <form
+          className=" w-[40rem] h-[24rem] flex flex-col gap-[1rem] px-[2.5rem] py-[1.5rem] border-[1px]  rounded-md "
+          onSubmit={(e) => handleSubmit(e)}
+        >
           <Label label={"Upload your image"} required={true} />
           <label
             htmlFor="dropzone-file"
@@ -120,14 +120,20 @@ const ImageUploader = () => {
               onChange={handleFileChange}
             />
           </label>
-          <div className='flex items-center justify-center mt-[1rem] ' >
-            <PrimaryButton type="submit" text={"Process Image"} width='w-[10rem]' height='h-[2.4rem]' disabled={!selectedImage} loading={buttonLoader} />
+          <div className="flex items-center justify-center mt-[1rem] ">
+            <PrimaryButton
+              type="submit"
+              text={"Process Image"}
+              width="w-[10rem]"
+              height="h-[2.4rem]"
+              disabled={!selectedImage}
+              loading={buttonLoader}
+            />
           </div>
-
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ImageUploader
+export default ImageUploader;
