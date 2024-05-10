@@ -3,9 +3,12 @@
  */
 
 // checking code 
+import { useRouter } from "next/router";
 import * as React from "react";
 
 function MyComponent(props) {
+  const router = useRouter();
+
   return (
     <div className="bg-white flex flex-col items-stretch">
       <div className="flex-col overflow-hidden relative flex min-h-[810px] w-full items-stretch max-md:max-w-full">
@@ -47,9 +50,9 @@ function MyComponent(props) {
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/db80cb40371175f608f02ae1372de7b939d2120401475d8463e65e302f606309?apiKey=e16cb3c994984815b737f967d633609a&"
               className="aspect-[0.06] object-contain object-center w-0.5 overflow-hidden self-stretch shrink-0 max-w-full"
             />
-            <div className="text-black text-base font-semibold whitespace-nowrap rounded border bg-white self-stretch grow justify-center items-stretch px-7 py-2.5 border-solid border-rose-500 max-md:px-5">
+            <button onClick={() => router.push("/login")} className="text-black text-base font-semibold whitespace-nowrap rounded border bg-white self-stretch grow justify-center items-stretch px-7 py-2.5 border-solid border-rose-500 max-md:px-5">
               Login
-            </div>
+            </button>
           </div>
         </div>
         <div className="relative w-full pl-12 pt-12 max-md:max-w-full max-md:pl-5">
